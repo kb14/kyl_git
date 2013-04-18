@@ -138,7 +138,7 @@
 			
 			?>
 			<tr>  
-            <td><a href="./eucountry_year.php?country=<?php echo $row->country ?>"><?php echo $row->country ?></a></td>  
+            <td><a href="./eucountry_year.php?country=<?php echo $row->country ?>"><?php echo ucwords(strtolower($row->country)) ?></a></td>  
             <td><?php echo $row->cnt1 ?></td>  
             </tr>
 			<?php

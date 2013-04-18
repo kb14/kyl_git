@@ -65,7 +65,7 @@
 			$country = $_GET['country'];
 		}
 		
-		$query = "SELECT year FROM european WHERE country='$country' GROUP BY year"; 
+		$query = "SELECT year FROM european WHERE country='$country' GROUP BY year order by year"; 
 		$result = pg_query($connection, $query) or die("Error in query:
 		$query. " .
 		pg_last_error($connection));
