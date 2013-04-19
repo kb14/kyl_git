@@ -133,7 +133,8 @@
                        'height':400};
 		var options1 = 	{
                        'width':700,
-                       'height':600};		   
+                       'height':600
+					   };		   
 
         // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
@@ -160,7 +161,7 @@
               <li><a href="./index.html">Home</a></li>
               <li><a href="#about">Twitter Search</a></li>
               <li><a href="#contact">About</a></li>
-			  <li><a href="#submit">Submit Data</a></li>
+			  <li><a href="#submit">Admin Panel</a></li>
             </ul>
 			<form class="navbar-search pull-right">  
 			<input type="text" class="search-query" placeholder="Search">  
@@ -244,6 +245,8 @@
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
+		
+		
 		<div class="span10">
 			<div class="jumbotron">
 				<div class="span2">

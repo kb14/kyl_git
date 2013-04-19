@@ -56,7 +56,7 @@
               <li><a href="./index.html">Home</a></li>
               <li><a href="#about">Twitter Search</a></li>
               <li><a href="#contact">About</a></li>
-			  <li><a href="#contact">Submit Data</a></li>
+			  <li><a href="#contact">Admin Panel</a></li>
 
             </ul>
 			<form class="navbar-search pull-right">  
@@ -127,7 +127,7 @@
 	<div class="row-fluid">
 		<div class="span8 offset2">
 			<table class="table">
-			  <thead>  
+			<thead>  
 			  <tr>  
 				<th>Term#</th>  
 				<th>Started</th>  

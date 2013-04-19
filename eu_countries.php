@@ -47,7 +47,7 @@
               <li><a href="./index.html">Home</a></li>
               <li><a href="#about">Twitter Search</a></li>
               <li><a href="#contact">About</a></li>
-			  <li><a href="#submit">Submit Data</a></li>
+			  <li><a href="#submit">Admin Panel</a></li>
             </ul>
 			<form class="navbar-search pull-right">  
 			<input type="text" class="search-query" placeholder="Search">  
