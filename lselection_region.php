@@ -37,7 +37,7 @@
 
 	<title><?php echo $cons.": ".$year ?></title>
 	<link rel="stylesheet" href="bootstrap.css">
-		<script type="text/javascript" src="http://localhost/kyl/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="http://localhost/kyl/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript" src="http://localhost/kyl/jquery.tablesorter.js"></script>
 	<script type="text/javascript"> 
 		$(document).ready(function() 
@@ -256,12 +256,23 @@
 			<div class="jumbotron">
 				<div class="span3">
 					<p class="lead"><?php echo $cons ?></p><br>
-					<p class="non-lead"><?php echo $election.": ".$year ?></p>
+					<?php
+					if($year==2004){
+					?>
+					<p class="non-lead"><?php echo $election.": ".$year ?> / <a href="./loksabha_election.php?year=2009">2009</a></p>
+					<?php
+					}
+					else{
+					?>
+					<p class="non-lead"><?php echo $election.": " ?> <a href="./loksabha_election.php?year=2004">2004</a> / 2009</p>
+					<?php
+					}
+					?>
 				</div>
 			</div>
 			<div class="row-fluid">
 				<div class="span12">
-				<table class="table table-bordered" id="myTable">
+				<table class="table table-bordered table-striped" id="myTable">
 				<thead>  
 				<tr>  
 					<th>Name</th>  
@@ -279,11 +290,11 @@
 					<?php
 						if($row->candidate==$winner){
 					?>
-					<td><a href="./lscandidate_profile.php?candidate=<?php echo $row->candidate?>&year=<?php echo $year ?>&constituency=<?php echo $cons ?>"><?php echo ucwords(strtolower($row->candidate)) ?></a>            <span class="label label-info">Winner</span></td>  
+					<td><a href="./lscandidate_profile.php?winner=<?php echo $row->candidate?>&candidate=<?php echo $row->candidate?>&year=<?php echo $year ?>&constituency=<?php echo $cons ?>"><?php echo ucwords(strtolower($row->candidate)) ?></a>            <span class="label label-info">Winner</span></td>  
 					<?php
 					}else{
 					?>
-					<td><a href="./lscandidate_profile.php?candidate=<?php echo $row->candidate?>&year=<?php echo $year ?>&constituency=<?php echo $cons ?>"><?php echo ucwords(strtolower($row->candidate)) ?></a></td>  
+					<td><a href="./lscandidate_profile.php?winner=<?php echo $winner?>&candidate=<?php echo $row->candidate?>&year=<?php echo $year ?>&constituency=<?php echo $cons ?>"><?php echo ucwords(strtolower($row->candidate)) ?></a></td>  
 					<?php
 					}
 					?>

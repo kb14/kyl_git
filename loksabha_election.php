@@ -280,7 +280,7 @@
 	
 		<!-- Right side, baby! -->
 		<div class="span7">
-		
+	
 		<!-- Filters -->
 			<form action="/kyl/loksabha_election.php" method="GET">  
 			<div class="row-fluid">
@@ -340,7 +340,7 @@
 		
 		?>
 		<tr>  
-        <td><a href="./lscandidate_profile.php?candidate=<?php echo $row->candidate?>&year=<?php echo $year ?>&constituency=<?php echo $row->constituency ?>"><?php echo ucwords(strtolower($row->candidate)) ?></a></td>  
+        <td><a href="./lscandidate_profile.php?winner=<?php echo $row->candidate?>&candidate=<?php echo $row->candidate?>&year=<?php echo $year ?>&constituency=<?php echo $row->constituency ?>"><?php echo ucwords(strtolower($row->candidate)) ?></a></td>  
         <td><a href="./lselection_region.php?year=<?php echo $year ?>&constituency=<?php echo $row->constituency ?>&winner=<?php echo $row->candidate ?>"><?php echo $row->constituency ?></a></td>  
         <td><?php echo $row->party ?></td>  
 		<td><?php echo $row->criminal_cases ?></td>  
