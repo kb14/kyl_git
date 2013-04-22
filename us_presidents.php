@@ -42,7 +42,7 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li><a href="./index.html">Home</a></li>
-              <li><a href="#about">Twitter Search</a></li>
+              <li><a href="./twitter_search.php">Twitter Search</a></li>
               <li><a href="#contact">About</a></li>
 			  <li><a href="#contact">Admin Panel</a></li>
 

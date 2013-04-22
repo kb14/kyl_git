@@ -75,7 +75,7 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li><a href="./index.html">Home</a></li>
-              <li><a href="#about">Twitter Search</a></li>
+              <li><a href="./twitter_search.php">Twitter Search</a></li>
               <li><a href="#contact">About</a></li>
 			  <li><a href="#contact">Admin Panel</a></li>
 
@@ -166,6 +166,18 @@
 					<td>&#8377; <?php echo $row->liabilities ?></td>  
 				</tr>
 				<?php
+					if($year>=2011){
+				?>
+				<tr>
+					<td><strong>Self Profession</strong></td>  
+					<td><?php echo $row->self_profession ?></td>  
+				</tr>
+				<tr>
+					<td><strong>Spouse Profession</strong></td>  
+					<td><?php echo $row->spouse_profession ?></td>  
+				</tr>
+				<?php
+				}
 				}
 				?>	
 				</tbody>
