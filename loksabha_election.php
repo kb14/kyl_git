@@ -28,7 +28,8 @@
 				$ta1 = substr($ta, 0, $pos);
 				$ta2 = substr($ta, $pos+1,$l-$pos-1 );
 				// generate and execute a query
-				$query = "SELECT candidate, constituency, party, criminal_cases, total_assets from win_ls WHERE year='$year' and total_assets 
+				$query = "SELECT all_ls.candidate AS candidate, all_ls.constituency AS constituency, all_ls.party AS party, all_ls.criminal_cases AS criminal_cases, all_ls.total_assets AS total_assets
+				FROM all_ls,win_ls WHERE all_ls.year='$year' AND win_ls.year='$year' AND all_ls.candidate=win_ls.candidate AND all_ls.party=win_ls.party AND all_ls.constituency=win_ls.constituency  and all_ls.total_assets 
 				BETWEEN '$ta1' AND '$ta2' ORDER BY total_assets, constituency"; 
 				$result = pg_query($connection, $query) or die("Error in query:
 				$query. " .
@@ -41,7 +42,8 @@
 				$cc1 = substr($cc, 0, $pos);
 				$cc2 = substr($cc, $pos+1,$l-$pos-1 );
 				// generate and execute a query
-				$query = "SELECT candidate, constituency, party, criminal_cases, total_assets from win_ls WHERE year='$year' AND criminal_cases 
+				$query = "SELECT all_ls.candidate AS candidate, all_ls.constituency AS constituency, all_ls.party AS party, all_ls.criminal_cases AS criminal_cases, all_ls.total_assets AS total_assets
+				FROM all_ls,win_ls WHERE all_ls.year='$year' AND win_ls.year='$year' AND all_ls.candidate=win_ls.candidate AND all_ls.party=win_ls.party AND all_ls.constituency=win_ls.constituency  AND all_ls.criminal_cases 
 				BETWEEN '$cc1' AND '$cc2' ORDER BY criminal_cases, constituency"; 
 				$result = pg_query($connection, $query) or die("Error in query:
 				$query. " .
@@ -59,8 +61,9 @@
 				$cc1 = substr($cc, 0, $pos2);
 				$cc2 = substr($cc, $pos2+1,$l2-$pos2-1 );
 				// generate and execute a query
-				$query = "SELECT candidate, constituency, party, criminal_cases, total_assets from win_ls WHERE year='$year' AND (criminal_cases 
-				BETWEEN '$cc1' AND '$cc2') AND (total_assets BETWEEN '$ta1' and '$ta2') ORDER BY criminal_cases, total_assets, constituency"; 
+				$query = "SELECT all_ls.candidate AS candidate, all_ls.constituency AS constituency, all_ls.party AS party, all_ls.criminal_cases AS criminal_cases, all_ls.total_assets AS total_assets
+				FROM all_ls,win_ls WHERE all_ls.year='$year' AND win_ls.year='$year' AND all_ls.candidate=win_ls.candidate AND all_ls.party=win_ls.party AND all_ls.constituency=win_ls.constituency  AND (all_ls.criminal_cases 
+				BETWEEN '$cc1' AND '$cc2') AND (all_ls.total_assets BETWEEN '$ta1' and '$ta2') ORDER BY criminal_cases, total_assets, constituency"; 
 				$result = pg_query($connection, $query) or die("Error in query:
 				$query. " .
 				pg_last_error($connection));
@@ -69,7 +72,8 @@
 		}
 		else{
 			// generate and execute a query
-			$query = "SELECT candidate, constituency, party, criminal_cases, total_assets from win_ls WHERE year='$year'"; 
+			$query = "SELECT all_ls.candidate AS candidate, all_ls.constituency AS constituency, all_ls.party AS party, all_ls.criminal_cases AS criminal_cases, all_ls.total_assets AS total_assets
+			FROM all_ls,win_ls WHERE all_ls.year='$year' AND win_ls.year='$year' AND all_ls.candidate=win_ls.candidate AND all_ls.party=win_ls.party AND all_ls.constituency=win_ls.constituency ";	
 			$result = pg_query($connection, $query) or die("Error in query:
 			$query. " .
 			pg_last_error($connection));
@@ -78,7 +82,8 @@
 	}
 	else{
 		// generate and execute a query
-		$query = "SELECT candidate, constituency, party, criminal_cases, total_assets from win_ls WHERE year='$year'"; 
+		$query = "SELECT all_ls.candidate AS candidate, all_ls.constituency AS constituency, all_ls.party AS party, all_ls.criminal_cases AS criminal_cases, all_ls.total_assets AS total_assets
+		FROM all_ls,win_ls WHERE all_ls.year='$year' AND win_ls.year='$year' AND all_ls.candidate=win_ls.candidate AND all_ls.party=win_ls.party AND all_ls.constituency=win_ls.constituency ";	
 		$result = pg_query($connection, $query) or die("Error in query:
 		$query. " .
 		pg_last_error($connection));

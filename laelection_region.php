@@ -107,7 +107,9 @@
 	#badb{
 		margin-top: 300px
 	}
-	
+	#badb1{
+		margin-bottom: 10px;
+	}
 	#example .modal-body {
 		max-height: 550px;
 	}
@@ -227,6 +229,7 @@
 	
 		<!-- Sidebar -->
 		<div class="span2">
+		<a href="./lastate_election.php?year=<?php echo $year?>&state=<?php echo $state ?>" class="btn btn-large btn-block btn-primary" id="badb1"><?php echo $state ?></a>	
           <div class="well sidebar-nav" id="wrap">
             <ul class="nav nav-list" id="list">
               <li class="nav-header" id="header">Select a Constituency</li>

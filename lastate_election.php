@@ -18,7 +18,10 @@
 		$state = $_GET['state'];
 	}
 	// generate and execute a query
-	$query = "SELECT candidate, constituency, party, criminal_cases, total_assets from win_assembly WHERE year='$year' AND state='$state'"; 
+	$query = "SELECT all_assembly.candidate AS candidate, all_assembly.constituency AS constituency, all_assembly.party AS party,
+	all_assembly.criminal_cases AS criminal_cases, all_assembly.total_assets AS total_assets
+	FROM all_assembly, win_assembly WHERE all_assembly.year='$year' AND all_assembly.state='$state' AND win_assembly.year='$year' AND win_assembly.state='$state'
+	AND all_assembly.candidate=win_assembly.candidate AND all_assembly.party=win_assembly.party AND all_assembly.constituency=win_assembly.constituency"; 
 	$result = pg_query($connection, $query) or die("Error in query:
 	$query. " .
 	pg_last_error($connection));
