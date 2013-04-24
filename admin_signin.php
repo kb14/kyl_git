@@ -1,11 +1,15 @@
+
 <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title> Admin Sign in &middot; kyl</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-<html>
-
-<head>
-
-    <title>US Elections</title>
-	<link rel="stylesheet" href="bootstrap.css"> 
+    <!-- Le styles -->
+    <link href="bootstrap.css" rel="stylesheet">
 	<script type="text/javascript" src="http://localhost/kyl/jquery.js"></script>
 	<script type="text/javascript">
 	function lookup(inputString) {
@@ -27,22 +31,38 @@
 		setTimeout("$('#suggestions').hide();", 200);
 	}
 	</script>
-	<style type='text/css'>
-	body {
-	}
-	.butn{
-		margin-top: 50px
-			
-	}
-	.jumbotron {
-        margin: 80px 0;
-        text-align: center;
-     }
-    .jumbotron .lead {
-        font-size: 24px;
-        line-height: 1.25;
-     }
-	 .suggestionsBox {
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+        background-color: #f5f5f5;
+      }
+
+      .form-signin {
+        max-width: 300px;
+        padding: 19px 29px 29px;
+        margin: 0 auto 20px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 5px;
+           -moz-border-radius: 5px;
+                border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+      }
+      .form-signin .form-signin-heading,
+      .form-signin .checkbox {
+        margin-bottom: 10px;
+      }
+      .form-signin input[type="text"],
+      .form-signin input[type="password"] {
+        font-size: 16px;
+        height: auto;
+        margin-bottom: 15px;
+        padding: 7px 9px;
+      }
+	.suggestionsBox {
 		position: absolute;
 		left: 5px;
 		top: 25px;
@@ -79,12 +99,12 @@
 	  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
 
 	}
-	</style>
-	
+    </style>
+    
+  </head>
 
-</head>
-<body>
-
+  <body>
+  
 	 <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -96,11 +116,10 @@
           <a class="brand" href="./index.html">kyl</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li><a href="./index.html">Home</a></li>
+              <li ><a href="./index.html">Home</a></li>
               <li><a href="./twitter_search.php">Twitter Search</a></li>
-              <li><a href="#contact">About</a></li>
-			  <li><a href="#contact">Admin Panel</a></li>
-
+              <li><a href="#">Crime Data</a></li>
+			  <li class="active"><a href="#">Admin Panel</a></li>
             </ul>
 			<form class="navbar-search pull-right">  
 			<input type="text" class="search-query" placeholder="Search" onkeyup="lookup(this.value);" onblur="fill();"> 
@@ -109,28 +128,23 @@
 				<div class="sugglist" id="autoSuggestionsList">
 				</div>
 			</div>	
-			</form> 
+			</form>  
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
 	
-<div class='container'>
-	
-	<!-- Jumbotron -->
-      <div class="jumbotron">
-        <p class="lead">Currently we only have basic data (DOB, number of terms, party, etc.) related to US Presidents elected since 1789 and these are not complete. You can help us adding more data by clicking the 'Submit Data' button and add missing data. To continue viewing the data, click 'US Presidents'</p>
-        <a class="btn btn-large btn-success" href="#">Submit Data</a>
-      </div>
+    <div class="container">
 
-      <hr>
+      <form class="form-signin" action="/kyl/admin_dashboard.php" method="POST">
+        <h2 class="form-signin-heading">Admin sign in</h2>
+        <input type="text" class="input-block-level" name="name" placeholder="Admin Name">
+        <input type="password" class="input-block-level" name="password" placeholder="Admin Password">
+        <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+      </form>
 
-	
-	<div class="row-fluid">
-		<div class="span4 offset4 butn" ><a href="./us_presidents.php" class="btn btn-large btn-block btn-success">US Presidents</a></div>
-	</div>
-	
-	
-</div>
-</body>
+    </div> <!-- /container -->
+
+
+  </body>
 </html>

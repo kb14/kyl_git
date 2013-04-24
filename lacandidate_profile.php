@@ -21,13 +21,13 @@
 	}
 	
 	// generate and execute a query
-	$query = "SELECT candidate FROM all_assembly WHERE year='$year' and constituency='$cons' AND state='$state'"; 
+	$query = "SELECT candidate FROM all_assembly WHERE constituency='$cons' AND  year='$year' and state='$state'"; 
 	$result = pg_query($connection, $query) or die("Error in query:
 	$query. " .
 	pg_last_error($connection));
 	$rows = pg_num_rows($result);
 	
-	$query1 = "SELECT * FROM all_assembly WHERE year='$year' and constituency='$cons' and candidate = '$cand' AND state='$state'"; 
+	$query1 = "SELECT * FROM all_assembly WHERE constituency='$cons' and year='$year' and candidate = '$cand' AND state='$state'"; 
 	$result1 = pg_query($connection, $query1) or die("Error in query:
 	$query. " .
 	pg_last_error($connection));
@@ -37,7 +37,27 @@
 <head>
 	<title><?php echo ucwords(strtolower($cand)) ?></title>
 	<link rel="stylesheet" href="bootstrap.css">
+	<script type="text/javascript" src="http://localhost/kyl/jquery.js"></script>
+	<script type="text/javascript">
+	function lookup(inputString) {
+		if(inputString.length == 0) {
+			// Hide the suggestion box.
+			$('#suggestions').hide();
+		} else {
+			$.post("mainsearch.php", {queryString: ""+inputString+""}, function(data){
+				if(data.length >0) {
+					$('#suggestions').show();
+					$('#autoSuggestionsList').html(data);
+				}
+			});
+		}
+	} // lookup
 	
+	function fill(thisValue) {
+		$('#inputString').val(thisValue);
+		setTimeout("$('#suggestions').hide();", 200);
+	}
+	</script>
 	<style type='text/css'>
 	
 	body {
@@ -57,6 +77,43 @@
       }
 	#badb{
 		margin-bottom: 10px;
+	}
+	.suggestionsBox {
+		position: absolute;
+		left: 5px;
+		top: 25px;
+		margin: 10px 0px 0px 0px;
+		width: 225px;
+		background-color: #ffffff;
+		-moz-border-radius: 6px;
+		-webkit-border-radius: 6px;
+		  border-radius: 6px;
+		-webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+		-moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+		-webkit-background-clip: padding-box;
+		-moz-background-clip: padding;
+          background-clip: padding-box;
+		border: 1px solid #ccc;	
+		color: transparent;
+	}
+	.sugglist a{
+		display: block;
+		padding: 3px 0px;
+	}
+	.sugglist a:hover{
+	  color: #ffffff;
+	  text-decoration: none;
+	  background-color: #0081c2;
+	  background-image: -moz-linear-gradient(top, #0088cc, #0077b3);
+	  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0077b3));
+	  background-image: -webkit-linear-gradient(top, #0088cc, #0077b3);
+	  background-image: -o-linear-gradient(top, #0088cc, #0077b3);
+	  background-image: linear-gradient(to bottom, #0088cc, #0077b3);
+	  background-repeat: repeat-x;
+	  outline: 0;
+	  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
+
 	}
 	</style>
 	
@@ -81,7 +138,12 @@
 
             </ul>
 			<form class="navbar-search pull-right">  
-			<input type="text" class="search-query" placeholder="Search">  
+			<input type="text" class="search-query" placeholder="Search" onkeyup="lookup(this.value);" onblur="fill();"> 
+			<div class="suggestionsBox" id="suggestions" style="display: none;">
+
+				<div class="sugglist" id="autoSuggestionsList">
+				</div>
+			</div>	
 			</form>
           </div><!--/.nav-collapse -->
         </div>

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 
 <html>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 
 <head>
 
-    <title>US Elections</title>
-	<link rel="stylesheet" href="bootstrap.css"> 
+    <title>Dashboard</title>
+	<link rel="stylesheet" href="bootstrap.css">
 	<script type="text/javascript" src="http://localhost/kyl/jquery.js"></script>
 	<script type="text/javascript">
 	function lookup(inputString) {
@@ -26,23 +27,16 @@
 		$('#inputString').val(thisValue);
 		setTimeout("$('#suggestions').hide();", 200);
 	}
-	</script>
+	</script>	
+	
 	<style type='text/css'>
+	
 	body {
-	}
-	.butn{
-		margin-top: 50px
-			
-	}
-	.jumbotron {
-        margin: 80px 0;
-        text-align: center;
-     }
-    .jumbotron .lead {
-        font-size: 24px;
-        line-height: 1.25;
-     }
-	 .suggestionsBox {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+
+	  .suggestionsBox {
 		position: absolute;
 		left: 5px;
 		top: 25px;
@@ -79,13 +73,10 @@
 	  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
 
 	}
-	</style>
-	
-
+	</style>  
 </head>
 <body>
-
-	 <div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -98,9 +89,8 @@
             <ul class="nav">
               <li><a href="./index.html">Home</a></li>
               <li><a href="./twitter_search.php">Twitter Search</a></li>
-              <li><a href="#contact">About</a></li>
-			  <li><a href="#contact">Admin Panel</a></li>
-
+              <li><a href="#contact">Crime Data</a></li>
+			  <li><a href="./admin_signin.php">Admin Panel</a></li>
             </ul>
 			<form class="navbar-search pull-right">  
 			<input type="text" class="search-query" placeholder="Search" onkeyup="lookup(this.value);" onblur="fill();"> 
@@ -109,28 +99,10 @@
 				<div class="sugglist" id="autoSuggestionsList">
 				</div>
 			</div>	
-			</form> 
+			</form>  
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
-	
-<div class='container'>
-	
-	<!-- Jumbotron -->
-      <div class="jumbotron">
-        <p class="lead">Currently we only have basic data (DOB, number of terms, party, etc.) related to US Presidents elected since 1789 and these are not complete. You can help us adding more data by clicking the 'Submit Data' button and add missing data. To continue viewing the data, click 'US Presidents'</p>
-        <a class="btn btn-large btn-success" href="#">Submit Data</a>
-      </div>
-
-      <hr>
-
-	
-	<div class="row-fluid">
-		<div class="span4 offset4 butn" ><a href="./us_presidents.php" class="btn btn-large btn-block btn-success">US Presidents</a></div>
-	</div>
-	
-	
-</div>
 </body>
 </html>

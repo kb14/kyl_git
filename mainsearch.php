@@ -15,13 +15,15 @@
 			$q2 = "SELECT * FROM usexecutives where firstname ilike '$queryString%' or lastname ilike '$queryString%' limit 7";
 			$q3 = "SELECT * FROM all_assembly where candidate ilike '$queryString%' limit 7";
 			$q4 = "SELECT * FROM win_ls where constituency ilike '$queryString%' limit 7";
+			$q5 = "SELECT * FROM win_assembly where constituency ilike '$queryString%' limit 7";
 			
 			$result = pg_query($db,$query);
 			$r2 = pg_query($db,$q2);
 			$r3 = pg_query($db,$q3);
 			$r4 = pg_query($db,$q4);
+			$r5 = pg_query($db,$q5);
 			
-			if (!$result && !$r2) {
+			if (!$result && !$r2 && !r3 && !r4) {
 				echo "s0mething";
 			}
 
@@ -57,7 +59,11 @@ while( $da2 = pg_fetch_row($r2)){
 }
 
 while( $da4 = pg_fetch_row($r4)){
-	echo "<li><a tabindex=\"-1\" href= \"http://localhost/kyl/lselection_region.php?year=".$da4[3]."&constituency=".$da4[1]."&winner=".$da4[0]."\">".$da4[1]." (".$da4[3].")"."</a></li>";
+	echo "<li><a tabindex=\"-1\" href= \"http://localhost/kyl/lselection_region.php?year=".$da4[3]."&constituency=".$da4[1]."&winner=".$da4[0]."\">".ucwords(strtolower($da4[1]))." (".$da4[3].")"."</a></li>";
+}
+
+while( $da5 = pg_fetch_row($r5)){
+	echo "<li><a tabindex=\"-1\" href= \"http://localhost/kyl/laelection_region.php?year=".$da5[3]."&constituency=".$da5[1]."&winner=".$da5[0]."&state=".$da5[4]."\">".ucwords(strtolower($da5[1]))." (".$da5[3].")"."</a></li>";
 }
 
 // Free resultset
@@ -65,6 +71,7 @@ while( $da4 = pg_fetch_row($r4)){
 	pg_free_result($r2);
 	pg_free_result($r3);
 	pg_free_result($r4);
+	pg_free_result($r5);
 	// Closing connection
 	pg_close($db);
 ?>

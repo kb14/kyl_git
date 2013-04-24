@@ -1,6 +1,26 @@
 <!DOCTYPE html>
 <html>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<?php
+function TwitterTrends(){
+	$proxy_ip = '10.10.78.22'; //proxy IP here
+	$proxy_port = 3128; //proxy port from your proxy list
+	$curlhandle = curl_init();
+	curl_setopt($curlhandle, CURLOPT_URL, "http://api.twitter.com/1/trends/2295420.json");
+    curl_setopt($curlhandle, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($curlhandle, CURLOPT_PROXYPORT, $proxy_port);
+	curl_setopt($curlhandle, CURLOPT_PROXYTYPE, 'HTTP');
+	curl_setopt($curlhandle, CURLOPT_PROXY, $proxy_ip);
+	
+    $response = curl_exec($curlhandle);
+    curl_close($curlhandle);
+
+    $json = json_decode($response);
+    return $json[0]->trends;
+}
+$trends = TwitterTrends();
+
+?>
 <head>
 	<title>Twitter Search</title>
 	<link rel="stylesheet" href="bootstrap.css">
@@ -9,8 +29,11 @@
 	body {
         padding-top: 60px;
         padding-bottom: 40px;
-		background-image: url('twitter_img.jpg');
+		<!--background-image: url('twitter_img.jpg');-->
       }
+	#twitterq{
+		margin-left: 500px;
+	}	
 	</style> 
 </head>
 <body>
@@ -26,25 +49,41 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li><a href="./index.html">Home</a></li>
-			  <li><a href="#">Twitter Search</a></li>              
+			  <li class="active"><a href="#">Twitter Search</a></li>              
 			  <li><a href="#contact">About</a></li>
 			  <li><a href="#contact">Admin Panel</a></li>
 
             </ul>
-			<form class="navbar-search pull-right">  
-			<input type="text" class="search-query" placeholder="Search">  
-			</form>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
 	
-	<form id="twittersearch" name="twittersearch" method="post" action="">
-		<input name="twitterq" type="text" id="twitterq"/>
-		<button type="submit"  class="btn btn-large btn-success">Search</button>
-	</form>
-	<div id="twitter-results"></div>
-	
+	<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span9">
+			<form id="twittersearch" name="twittersearch" class="form-search" method="post" action="">
+			<div class="input-append">
+				<input name="twitterq" class="search-query span6" type="text" id="twitterq" autocomplete="off"/>
+				<button type="submit"  class="btn btn-success">Search</button>
+			</div>	
+			</form>
+			<div id="twitter-results" class="media-list"></div>
+		</div>
+		<div class="span3">
+			<div class="well sidebar-nav">
+				<li class="nav-header">Trending Topics: India</li>
+				<?php
+					foreach($trends as $trend){
+				?>
+				<li><a tabindex="-1" href="<?php echo $trend->url ?>"><?php echo $trend->name ?></a>  </li>
+				<?php
+				}
+				?>
+			</div
+		</div>
+	</div>
+	</div>
 	<!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -64,11 +103,11 @@
 			element.fadeIn("slow");
 			i++;
 			if(i==limit){
-			window.setTimeout(function () {
-			clearInterval(myInterval);
-			});
+				window.setTimeout(function () {
+				clearInterval(myInterval);
+				});
 			}
-			},20000);
+			},10000);
 		}
 
 		$("form#twittersearch").submit(function() {

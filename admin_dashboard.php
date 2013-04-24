@@ -1,11 +1,42 @@
 <!DOCTYPE html>
 
 <html>
-
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<?php
+	if(isset($_POST['name']) && isset($_POST['password'])){
+		$pass = $_POST['password'];
+		$name = $_POST['name'];
+	}
+	
+	require_once __DIR__ . '/db_config.php';
+	// open a connection to the database server
+	$connection = pg_connect ("host=$host port=$port dbname=$db user=$user
+	password=$password");
+	if (!$connection)
+	{
+	die("Could not open connection to database server");
+	}
+	
+	// generate and execute a query
+	$query = "SELECT * FROM admin"; 
+	$result = pg_query($connection, $query) or die("Error in query:
+	$query. " .
+	pg_last_error($connection));
+	$rows = pg_num_rows($result);
+	$i=0;
+	if($rows>0){
+		for($i=0;$i<$rows;$i++){
+			$row = pg_fetch_object($result, $i);
+			if($name==$row->name && $pass==$row->password){
+				break;
+			}	
+		}
+	}
+?>
 <head>
 
-    <title>US Elections</title>
-	<link rel="stylesheet" href="bootstrap.css"> 
+    <title>Dashboard</title>
+	<link rel="stylesheet" href="bootstrap.css">
 	<script type="text/javascript" src="http://localhost/kyl/jquery.js"></script>
 	<script type="text/javascript">
 	function lookup(inputString) {
@@ -26,23 +57,30 @@
 		$('#inputString').val(thisValue);
 		setTimeout("$('#suggestions').hide();", 200);
 	}
-	</script>
+	</script>	
+	
 	<style type='text/css'>
+	
 	body {
-	}
-	.butn{
-		margin-top: 50px
-			
-	}
-	.jumbotron {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+	  .jumbotron {
         margin: 80px 0;
         text-align: center;
      }
     .jumbotron .lead {
         font-size: 24px;
         line-height: 1.25;
-     }
-	 .suggestionsBox {
+    }
+	.butn{
+		margin-top: 100px	
+	}
+	
+	#badb{
+		margin-top: 30px
+	}
+	  .suggestionsBox {
 		position: absolute;
 		left: 5px;
 		top: 25px;
@@ -79,13 +117,11 @@
 	  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
 
 	}
-	</style>
-	
-
+	</style>  
 </head>
-<body>
 
-	 <div class="navbar navbar-inverse navbar-fixed-top">
+<body>
+	<div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -98,9 +134,8 @@
             <ul class="nav">
               <li><a href="./index.html">Home</a></li>
               <li><a href="./twitter_search.php">Twitter Search</a></li>
-              <li><a href="#contact">About</a></li>
-			  <li><a href="#contact">Admin Panel</a></li>
-
+              <li><a href="#contact">Crime Data</a></li>
+			  <li><a href="./admin_signin.php">Admin Panel</a></li>
             </ul>
 			<form class="navbar-search pull-right">  
 			<input type="text" class="search-query" placeholder="Search" onkeyup="lookup(this.value);" onblur="fill();"> 
@@ -109,28 +144,43 @@
 				<div class="sugglist" id="autoSuggestionsList">
 				</div>
 			</div>	
-			</form> 
+			</form>  
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
 	
-<div class='container'>
-	
+	<div class='container'>
+	<?php
+		if($name=="" || $pass == "" || $i==$rows){
+	?>
 	<!-- Jumbotron -->
       <div class="jumbotron">
-        <p class="lead">Currently we only have basic data (DOB, number of terms, party, etc.) related to US Presidents elected since 1789 and these are not complete. You can help us adding more data by clicking the 'Submit Data' button and add missing data. To continue viewing the data, click 'US Presidents'</p>
-        <a class="btn btn-large btn-success" href="#">Submit Data</a>
+        <p class="lead">Enter correct name/password</p>
       </div>
-
-      <hr>
-
 	
-	<div class="row-fluid">
-		<div class="span4 offset4 butn" ><a href="./us_presidents.php" class="btn btn-large btn-block btn-success">US Presidents</a></div>
+	<?php
+		}
+		else{
+	?>
+		<!-- Jumbotron -->
+      <div class="jumbotron">
+        <p class="lead">Update/Add Data by selecting a country/region</p>
+      </div>
+	  
+	  <hr>
+	  <div class="row-fluid">
+		<div class="span4 offset4 butn" ><a href="#" class="btn btn-large btn-block btn-success">India</a>
+		
+		<!--<a href="./eu_countries.php" id="badb" class="btn btn-large btn-block btn-success">Europe</a>-->
+		
+		<a href="./admin_usa.php" id="badb" class="btn btn-large btn-block btn-success">USA</a></div>
+	  </div>	
+	<?php
+	}
+	?>
+	
 	</div>
-	
-	
-</div>
 </body>
-</html>
+
+</html>	
