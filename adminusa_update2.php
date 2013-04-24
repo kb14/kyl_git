@@ -140,23 +140,26 @@
 			<form class="form-horizontal" method="get" action="/kyl/usa_update_submit.php">
 				<?php
 				for($i=1;$i<=$not;$i++){
+					$tstart = "term".$i."start";
+					$tend = "term".$i."end";
+					$tparty = "term".$i."party";
 				?>
 				<div class="control-group">
 				<label class="control-label" for="<?php echo "t".$i."s" ?>"><?php echo "Term ".$i." Start" ?></label>
 				<div class="controls">
-				  <input class="span10" type="text" id="<?php echo "t".$i."s" ?>" name="<?php echo "t".$i."s" ?>" value="<?php echo $row->term1start ?>">
+				  <input class="span10" type="text" id="<?php echo "t".$i."s" ?>" name="<?php echo "t".$i."s" ?>" value="<?php echo $row->$tstart ?>">
 				</div>
 				</div>
 				<div class="control-group">
 				<label class="control-label" for="<?php echo "t".$i."e" ?>"><?php echo "Term ".$i." End" ?></label>
 				<div class="controls">
-				  <input class="span10" type="text" id="<?php echo "t".$i."e" ?>" name="<?php echo "t".$i."e" ?>" value="<?php echo $row->term1end ?>">
+				  <input class="span10" type="text" id="<?php echo "t".$i."e" ?>" name="<?php echo "t".$i."e" ?>" value="<?php echo $row->$tend ?>">
 				</div>
 				</div>
 				<div class="control-group">
 				<label class="control-label" for="<?php echo "t".$i."p" ?>"><?php echo "Term ".$i." Party" ?></label>
 				<div class="controls">
-				  <input class="span10" type="text" id="<?php echo "t".$i."p" ?>" name="<?php echo "t".$i."p" ?>" value="<?php echo $row->term1party ?>">
+				  <input class="span10" type="text" id="<?php echo "t".$i."p" ?>" name="<?php echo "t".$i."p" ?>" value="<?php echo $row->$tparty ?>">
 				</div>
 				</div>
 				<?php
