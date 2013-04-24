@@ -3,9 +3,14 @@
 <html>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <?php
-	if(isset($_POST['name']) && isset($_POST['password'])){
-		$pass = $_POST['password'];
-		$name = $_POST['name'];
+	if(isset($_GET['firstname']) && isset($_GET['lastname']) && isset($_GET['birthdate']) && isset($_GET['not']) && isset($_GET['gender']) && isset($_GET['not1']) && isset($_GET['term1start'])){
+		$firstname = $_GET['firstname'];
+		$lastname = $_GET['lastname'];
+		$not = $_GET['not'];
+		$not1 = $_GET['not1'];
+		$gender= $_GET['gender'];
+		$birthdate = $_GET['birthdate'];
+		$t1s = $_GET['term1start'];
 	}
 	
 	require_once __DIR__ . '/db_config.php';
@@ -18,24 +23,16 @@
 	}
 	
 	// generate and execute a query
-	$query = "SELECT * FROM admin"; 
-	$result = pg_query($connection, $query) or die("Error in query:
-	$query. " .
-	pg_last_error($connection));
-	$rows = pg_num_rows($result);
-	$i=0;
-	if($rows>0){
-		for($i=0;$i<$rows;$i++){
-			$row = pg_fetch_object($result, $i);
-			if($name==$row->name && $pass==$row->password){
-				break;
-			}	
-		}
-	}
+			$query = "SELECT * FROM usexecutives WHERE term1start='$t1s'"; 
+			$result = pg_query($connection, $query) or die("Error in query:
+			$query. " .
+			pg_last_error($connection));
+			
+			$row = pg_fetch_object($result, 0);
 ?>
 <head>
 
-    <title>Dashboard</title>
+    <title>Dashboard USA Update2</title>
 	<link rel="stylesheet" href="bootstrap.css">
 	<script type="text/javascript" src="http://localhost/kyl/jquery.js"></script>
 	<script type="text/javascript">
@@ -65,21 +62,7 @@
         padding-top: 60px;
         padding-bottom: 40px;
       }
-	  .jumbotron {
-        margin: 80px 0;
-        text-align: center;
-     }
-    .jumbotron .lead {
-        font-size: 24px;
-        line-height: 1.25;
-    }
-	.butn{
-		margin-top: 100px	
-	}
 	
-	#badb{
-		margin-top: 30px
-	}
 	  .suggestionsBox {
 		position: absolute;
 		left: 5px;
@@ -117,6 +100,7 @@
 	  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
 
 	}
+	
 	</style>  
 </head>
 
@@ -151,36 +135,74 @@
     </div>
 	
 	<div class='container-fluid'>
-	<?php
-		if($name=="" || $pass == "" || $i==$rows){
-	?>
-	<!-- Jumbotron -->
-      <div class="jumbotron">
-        <p class="lead">Enter correct name/password</p>
-      </div>
-	
-	<?php
-		}
-		else{
-	?>
-		<!-- Jumbotron -->
-      <div class="jumbotron">
-        <p class="lead">Update/Add Data by selecting a country/region</p>
-      </div>
-	  
-	  <hr>
-	  <div class="row-fluid">
-		<div class="span4 offset4 butn" ><a href="#" class="btn btn-large btn-block btn-success">India</a>
-		
-		<!--<a href="./eu_countries.php" id="badb" class="btn btn-large btn-block btn-success">Europe</a>-->
-		
-		<a href="./admin_usa.php" id="badb" class="btn btn-large btn-block btn-success">USA</a></div>
-	  </div>	
-	<?php
-	}
-	?>
+		<div class="row-fluid">
+		<div class="span5 offset3">
+			<form class="form-horizontal" method="get" action="/kyl/usa_update_submit.php">
+				<?php
+				for($i=1;$i<=$not;$i++){
+				?>
+				<div class="control-group">
+				<label class="control-label" for="<?php echo "t".$i."s" ?>"><?php echo "Term ".$i." Start" ?></label>
+				<div class="controls">
+				  <input class="span10" type="text" id="<?php echo "t".$i."s" ?>" name="<?php echo "t".$i."s" ?>" value="<?php echo $row->term1start ?>">
+				</div>
+				</div>
+				<div class="control-group">
+				<label class="control-label" for="<?php echo "t".$i."e" ?>"><?php echo "Term ".$i." End" ?></label>
+				<div class="controls">
+				  <input class="span10" type="text" id="<?php echo "t".$i."e" ?>" name="<?php echo "t".$i."e" ?>" value="<?php echo $row->term1end ?>">
+				</div>
+				</div>
+				<div class="control-group">
+				<label class="control-label" for="<?php echo "t".$i."p" ?>"><?php echo "Term ".$i." Party" ?></label>
+				<div class="controls">
+				  <input class="span10" type="text" id="<?php echo "t".$i."p" ?>" name="<?php echo "t".$i."p" ?>" value="<?php echo $row->term1party ?>">
+				</div>
+				</div>
+				<?php
+				}
+				?>
+				<?php
+				for($j=$i;$j<=$not1;$j++){
+				?>
+				<div class="control-group">
+				<label class="control-label" for="<?php echo "t".$j."s" ?>"><?php echo "Term ".$j." Start" ?></label>
+				<div class="controls">
+				  <input class="span10" type="text" id="<?php echo "t".$j."s" ?>" name="<?php echo "t".$j."s" ?>" placeholder="yyyy-mm-dd">
+				</div>
+				</div>
+				<div class="control-group">
+				<label class="control-label" for="<?php echo "t".$j."e" ?>"><?php echo "Term ".$j." End" ?></label>
+				<div class="controls">
+				  <input class="span10" type="text" id="<?php echo "t".$j."e" ?>" name="<?php echo "t".$j."e" ?>" placeholder="yyyy-mm-dd">
+				</div>
+				</div>
+				<div class="control-group">
+				<label class="control-label" for="<?php echo "t".$j."p" ?>"><?php echo "Term ".$j." Party" ?></label>
+				<div class="controls">
+				  <input class="span10" type="text" id="<?php echo "t".$j."p" ?>" name="<?php echo "t".$j."p" ?>" placeholder="Party">
+				</div>
+				</div>
+				<?php
+				}
+				?>
+				<input type="hidden" name="firstname" value="<?php echo $firstname ?>" />
+				<input type="hidden" name="lastname" value="<?php echo $lastname ?>" />
+				<input type="hidden" name="birthdate" value="<?php echo $birthdate ?>" />
+				<input type="hidden" name="gender" value="<?php echo $gender ?>" />
+				<input type="hidden" name="not" value="<?php echo $not1 ?>" />
+				<input type="hidden" name="term1start" value="<?php echo $t1s ?>" />
+				<div class="control-group">
+				<div class="controls">
+				  <a href="adminusa_new.php" class="btn btn-large btn-success">Go Back</a>
+				  <button type="submit" class="btn btn-large btn-success">Submit</button>
+				</div>
+				</div>
+			</form>
+		</div>
+		</div>
 	
 	</div>
+	
 </body>
-
-</html>	
+</html>

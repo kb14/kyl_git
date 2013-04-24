@@ -2,29 +2,10 @@
 
 <html>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<?php
-		require_once __DIR__ . '/db_config.php';
-		
-		// open a connection to the database server
-		$connection = pg_connect ("host=$host port=$port dbname=$db user=$user
-		password=$password");
-		if (!$connection)
-		{
-		die("Could not open connection to database server");
-		}
-		
-		// generate and execute a query
-			$query = "SELECT firstname, lastname, birtddate, gender, numofterms, term1start FROM usexecutives ORDER BY
-			firstname, lastname "; 
-			$result = pg_query($connection, $query) or die("Error in query:
-			$query. " .
-			pg_last_error($connection));
-			$rows = pg_num_rows($result);
-		
-?>
+
 <head>
 
-    <title>Dashboard</title>
+    <title>Dashboard USA New</title>
 	<link rel="stylesheet" href="bootstrap.css">
 	<script type="text/javascript" src="http://localhost/kyl/jquery.js"></script>
 	<script type="text/javascript">
@@ -54,10 +35,7 @@
         padding-top: 60px;
         padding-bottom: 40px;
       }
-	#badb{
-		margin-top: 100px;
-		margin-bottom: 10px;
-	}
+	
 	  .suggestionsBox {
 		position: absolute;
 		left: 5px;
@@ -95,13 +73,10 @@
 	  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
 
 	}
-	table tr td a {
-		display:block;
-		height:100%;
-		width:100%;
-	}
+	
 	</style>  
 </head>
+
 <body>
 	<div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
@@ -133,42 +108,51 @@
     </div>
 	
 	<div class='container-fluid'>
-	<div class="row-fluid">
-		<div class="span3">
-			<a href="./admin_signin.php" class="btn btn-large btn-block btn-primary" id="badb">Go Back</a>	
-			<a href="./adminusa_new.php" class="btn btn-large btn-block btn-primary" >Add New President</a>	
+		<div class="row-fluid">
+		<div class="span5 offset3">
+			<form class="form-horizontal" method="get" action="/kyl/adminusa_new2.php">
+			  <div class="control-group">
+				<label class="control-label" for="firstname">First Name</label>
+				<div class="controls">
+				  <input class="span10" type="text" id="firstname" name="firstname" placeholder="First Name">
+				</div>
+			  </div>
+			  <div class="control-group">
+				<label class="control-label" for="lastname">Last Name</label>
+				<div class="controls">
+				  <input class="span10" type="text" id="lastname" name="lastname" placeholder="Last Name">
+				</div>
+			  </div>
+			  <div class="control-group">
+				<label class="control-label" for="birthdate">Birth Date</label>
+				<div class="controls">
+				  <input class="span10" type="text" id="birthdate" name="birthdate" placeholder="yyyy-mm-dd">
+				</div>
+			  </div>
+			  <div class="control-group">
+				<label class="control-label" for="gender">Gender</label>
+				<div class="controls">
+				  <select id="gender" name="gender"> 
+					<option>M</option>
+					<option >F</option>
+					</select>  
+				</div>
+			  </div>
+			  <div class="control-group">
+			  <label for="not" class="control-label">Number of Terms </label>  
+			  <div class="controls">
+				<input type="number" name="not" id="not" min="1" max="3" step="1" value="1">
+			  </div>	 
+			  </div>
+			  <div class="control-group">
+				<div class="controls">
+				  <a href="admin_usa.php" class="btn btn-large btn-success">Go Back</a>
+				  <button type="submit" class="btn btn-large btn-success">Next</button>
+				</div>
+			  </div>
+			</form>
 		</div>
-		
-		<div class="span9">
-			<table class="table table-bordered table-striped"> 
-				<thead>  
-			  <tr>  
-				<th>Name</th>  
-				<th>Date of Birth</th>  
-				<th>Number of Terms</th>
-			  </tr>  
-			</thead> 
-			<tbody>  
-			<?php
-			if ($rows > 0){
-			// iterate through resultset
-			for ($i=0; $i<$rows; $i++){
-				$row = pg_fetch_object($result, $i);
-			
-			?>
-			<tr>  
-            <td><a href="./adminusa_update.php?term1start=<?php echo $row->term1start ?>&not=<?php echo $row->numofterms ?>&firstname=<?php echo $row->firstname ?>&lastname=<?php echo $row->lastname ?>&birthdate=<?php echo $row->birtddate ?>&gender=<?php echo $row->gender ?>"><?php echo $row->firstname." ".$row->lastname ?></a></td>  
-            <td><a href="./adminusa_update.php?term1start=<?php echo $row->term1start ?>&not=<?php echo $row->numofterms ?>&firstname=<?php echo $row->firstname ?>&lastname=<?php echo $row->lastname ?>&birthdate=<?php echo $row->birtddate ?>&gender=<?php echo $row->gender ?>"><?php echo $row->birtddate ?></a></td>  
-            <td><a href="./adminusa_update.php?term1start=<?php echo $row->term1start ?>&not=<?php echo $row->numofterms ?>&firstname=<?php echo $row->firstname ?>&lastname=<?php echo $row->lastname ?>&birthdate=<?php echo $row->birtddate ?>&gender=<?php echo $row->gender ?>"><?php echo $row->numofterms ?></a></td>  
-			</tr>
-			<?php
-			}
-			}
-			?>
-			</tbody>
-			</table>
 		</div>
-	</div>
 	</div>
 </body>
 </html>
