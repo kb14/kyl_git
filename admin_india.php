@@ -2,10 +2,11 @@
 
 <html>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
 <head>
 
-    <title>Home</title>
-	<link rel="stylesheet" href="bootstrap.css"> 
+    <title>Dashboard</title>
+	<link rel="stylesheet" href="bootstrap.css">
 	<script type="text/javascript" src="http://localhost/kyl/jquery.js"></script>
 	<script type="text/javascript">
 	function lookup(inputString) {
@@ -26,25 +27,16 @@
 		$('#inputString').val(thisValue);
 		setTimeout("$('#suggestions').hide();", 200);
 	}
-	</script>
+	</script>	
+	
 	<style type='text/css'>
-	body {
+	
+	
+	  .butn{
+		margin-top: 280px
+			
 	}
-	.butn{
-		margin-top: 100px	
-	}
-	.jumbotron {
-        margin: 80px 0;
-        text-align: center;
-     }
-    .jumbotron .lead {
-        font-size: 24px;
-        line-height: 1.25;
-    }
-	#badb{
-		margin-top: 30px
-	}
-	.suggestionsBox {
+	   .suggestionsBox {
 		position: absolute;
 		left: 5px;
 		top: 25px;
@@ -81,13 +73,11 @@
 	  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
 
 	}
-	</style>
-	
+	  </style>
+</head>	  
 
-</head>
 <body>
-
-	 <div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -98,7 +88,7 @@
           <a class="brand" href="./index.html">kyl</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
+              <li><a href="./index.html">Home</a></li>
               <li><a href="./twitter_search.php">Twitter Search</a></li>
               <li><a href="./india_elections_crime.html">Crime Data</a></li>
 			  <li><a href="./admin_signin.php">Admin Panel</a></li>
@@ -116,28 +106,41 @@
       </div>
     </div>
 	
-	<div class='container'>
+	<div class='container-fluid'>
 	
-	<!-- Jumbotron -->
-      <div class="jumbotron">
-        <p class="lead">Select a Country/Region</p>
-      </div>
-
-      <hr>
-
 	<div class="row-fluid">
 	
 	
-		<div class="span4 offset4 butn" ><a href="./india_elections.html" class="btn btn-large btn-block btn-success">India</a>
-		
-		<a href="./eu_countries.php" id="badb" class="btn btn-large btn-block btn-success">Europe</a>
-		
-		<a href="./us_elections.html" id="badb" class="btn btn-large btn-block btn-success">USA</a></div>
-
-	
+    <div class="butn" >
+		<ul class="nav nav-pills">  
+    <li class="dropdown all-camera-dropdown span2 offset4">  
+           <a class="dropdown-toggle" data-toggle="dropdown" href="#">  
+            Lok Sabha  
+               <b class="caret"></b>  
+           </a>  
+    <ul class="dropdown-menu">  
+            <li data-filter-camera-type="all"><a data-toggle="tab" href="./loksabha_cons.php">Update Existing Data</a></li>  
+            <li data-filter-camera-type="Alpha"><a data-toggle="tab" href="#">Add New Data</a></li>  
+            
+     </ul>  
+	 </li>
+	 <li class="dropdown all-camera-dropdown">  
+           <a class="dropdown-toggle" data-toggle="dropdown" href="#">  
+            Legislative Assembly  
+               <b class="caret"></b>  
+           </a>  
+    <ul class="dropdown-menu">  
+            <li data-filter-camera-type="all"><a data-toggle="tab" href="#">Update Existing Data</a></li>  
+            <li data-filter-camera-type="Alpha"><a data-toggle="tab" href="#">Add New Data</a></li>  
+            
+     </ul>  
+	 </li>
+	 </ul> 
+	</div>
 	</div>
 	
 	
-</div>
+	
+	<script type="text/javascript" src="http://localhost/kyl/bootstrap-dropdown.js"></script>
 </body>
 </html>

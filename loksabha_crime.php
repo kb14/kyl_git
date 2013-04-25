@@ -14,28 +14,31 @@
 	die("Could not open connection to database server");
 	}
 	
-	if(isset($_GET['year']) && isset($_GET['constituency']) && isset($_GET['winner'])){
-		$year = $_GET['year'];
+	if(isset($_GET['constituency'])){
+		
 		$cons = $_GET['constituency'];
-		$winner = $_GET['winner'];
+		
 	}
+	
 	// generate and execute a query
-	$query = "SELECT candidate, party, criminal_cases, total_assets from all_ls WHERE  constituency='$cons' and year='$year'"; 
+	$query = "SELECT DISTINCT(LOWER(constituency)) as constituency FROM cand_crime_ls ORDER BY constituency"; 
 	$result = pg_query($connection, $query) or die("Error in query:
 	$query. " .
 	pg_last_error($connection));
 	$rows = pg_num_rows($result);
 	
-	$query1 = "SELECT constituency,candidate from win_ls WHERE year='$year'"; 
-	$result1 = pg_query($connection, $query1) or die("Error in query:
+	// generate and execute a query
+	$query2 = "SELECT DISTINCT(year) as year FROM cand_crime_ls WHERE LOWER(constituency)='$cons' ORDER BY year"; 
+	$result2 = pg_query($connection, $query2) or die("Error in query:
 	$query. " .
 	pg_last_error($connection));
-	$rows1 = pg_num_rows($result1);
+	$rows2 = pg_num_rows($result2);
 	
-?>	
+?>
+
 <head>
 
-	<title><?php echo $cons.": ".$year ?></title>
+	<title>Lok Sabha Crime</title>
 	<link rel="stylesheet" href="bootstrap.css">
 	<script type="text/javascript" src="http://localhost/kyl/jquery.js"></script>
 	<script type="text/javascript" src="http://localhost/kyl/jquery-1.9.1.min.js"></script>
@@ -64,6 +67,13 @@
 		$(document).ready(function() 
 		{ 
 			$("#myTable").tablesorter(); 
+		}
+		);	
+	</script>
+	<script type="text/javascript"> 
+		$(document).ready(function() 
+		{ 
+			$("#myTable1").tablesorter(); 
 		}
 		);	
 	</script>	
@@ -100,41 +110,26 @@
 	  });
 	}(jQuery));
 	 
-  </script> 
-
-	<style type='text/css'>
+  </script>
+  
+  <style type='text/css'>
 	
 	body {
         padding-top: 60px;
         padding-bottom: 40px;
       }
+	  .jumbotron {
+        margin: 25px 0;
+        text-align: center;
+     }
+    .jumbotron .lead {
+        font-size: 18px;
+        line-height: 1.25;
+		}
 	   .sidebar-nav {
         padding: 9px 0;
       }
-	.jumbotron {
-        margin: 10px 0;
-        text-align: center;
-     }  
-	 .jumbotron .lead {
-        font-size: 30px;
-        line-height: 1.25;
-    }
-	.jumbotron .non-lead {
-        font-size: 15px;
-        line-height: 1.25;
-    }
-	#badb{
-		margin-top: 300px
-	}
-	
-	#example .modal-body {
-		max-height: 550px;
-	}
-	#example {
-		width: 750px; 
-		margin: -50px 0 0 -350px; 
-	}
-	.sidebar-nav {
+	  .sidebar-nav {
         padding: 9px 0;
      }
 	 @media (max-width: 980px) {
@@ -247,9 +242,9 @@
 	  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
 
 	}
-	</style> 
-	
-	
+	</style>
+
+  
 </head>
 
 <body>
@@ -284,19 +279,16 @@
     </div>
 	
 	<div class="container-fluid">
-	
-	
 	<div class="row-fluid">
-	
 		<!-- Sidebar -->
 		<div class="span2">
           <div class="well sidebar-nav" id="wrap">
             <ul class="nav nav-list" id="list">
               <li class="nav-header" id="header">Select a Constituency</li>
               <?php
-					if($rows1>0){
-						for($i=0;$i<$rows1;$i++){
-						$row = pg_fetch_object($result1, $i);
+					if($rows>0){
+						for($i=0;$i<$rows;$i++){
+						$row = pg_fetch_object($result, $i);
 						if($row->constituency==$cons){
 			  ?>
 			  <li class="active"><a tabindex="-1" href="#"><?php echo ucwords(strtolower($cons)) ?></a></li>
@@ -304,7 +296,7 @@
 			  }
 			  else{
 			  ?>
-              <li><a tabindex="-1" href="./lselection_region.php?year=<?php echo $year ?>&constituency=<?php echo $row->constituency ?>&winner=<?php echo $row->candidate ?>"><?php echo ucwords(strtolower($row->constituency)) ?></a> </li>
+              <li><a tabindex="-1" href="./loksabha_crime.php?constituency=<?php echo $row->constituency ?>"><?php echo ucwords(strtolower($row->constituency)) ?></a> </li>
 			  <?php
 			  }
 			  }
@@ -313,76 +305,136 @@
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
-	
+		
+		
 		<!-- Right side, baby! -->
 		<div class="span10">
-			<div class="jumbotron">
-				<div class="span3">
-					<p class="lead"><?php echo $cons ?></p><br>
-					<?php
-					if($year==2004){
-					?>
-					<p class="non-lead"><?php echo $election.": ".$year ?> / <a href="./loksabha_election.php?year=2009">2009</a></p>
-					<?php
-					}
-					else{
-					?>
-					<p class="non-lead"><?php echo $election.": " ?> <a href="./loksabha_election.php?year=2004">2004</a> / 2009</p>
-					<?php
-					}
-					?>
-				</div>
-			</div>
-			<div class="row-fluid">
-				<div class="span12">
-				<table class="table table-bordered table-striped" id="myTable">
-				<thead>  
-				<tr>  
-					<th>Name</th>  
-					<th>Party</th>
-					<th>Criminal Cases</th>
-					<th>Total Assets</th>
-				</tr>  
-				</thead> 
-				<tbody>
+		<!--Small Jumbotron -->
+      <div class="jumbotron">
+        <p class="lead"><?php echo ucwords($cons) ?></p>
+	  </div>
+			<div class="tabbable">
+				<ul class="nav nav-tabs"> 
 				<?php
-				for($i=0;$i<$rows;$i++){
-				$row = pg_fetch_object($result, $i);
+				for($i=1;$i<=$rows2;$i++){
+					$row = pg_fetch_object($result2, $i-1);
+					
+					if($i==1){
 				?>
-					<tr>
+				<li class="active"><a href="<?php echo "#".$i ?>" data-toggle="tab"><?php echo $row->year ?></a></li>  
+				<?php
+				}else{
+				?>
+				<li><a href="<?php echo "#".$i ?>" data-toggle="tab"><?php echo $row->year ?></a></li>  
+				<?php
+				}
+				}
+				?>
+				</ul>
+				<div class="tab-content">  
 					<?php
-						if($row->candidate==$winner){
+					for($i=1;$i<=$rows2;$i++){
+					$row = pg_fetch_object($result2, $i-1);
+					// generate and execute a query
+					$query1 = "SELECT * FROM cand_crime_ls WHERE LOWER(constituency)='$cons' AND year='$row->year'"; 
+					$result1 = pg_query($connection, $query1) or die("Error in query:
+					$query. " .
+					pg_last_error($connection));
+					$rows1 = pg_num_rows($result1);
+					if($i==1){
 					?>
-					<td><a href="./lscandidate_profile.php?winner=<?php echo $row->candidate?>&candidate=<?php echo $row->candidate?>&year=<?php echo $year ?>&constituency=<?php echo $cons ?>"><?php echo ucwords(strtolower($row->candidate)) ?></a>            <span class="label label-info">Winner</span></td>  
+					<div class="tab-pane active" id="<?php echo $i ?>">  
+					
+						<div class="row-fluid">
+							<div class="span12">
+								<table class="table table-bordered table-striped" id="myTable">
+									<thead>  
+									<tr>  
+										<th>Name</th>  
+										<th>Party</th>
+										<th>Criminal Cases</th>
+										<th>Case Details Accused</th>
+										<th>Serious IPC Details</th>
+										<th>Other IPC Details</th>
+										<th>Action</th>
+									</tr>  
+									</thead> 
+									<tbody>
+									<?php
+									for($j=0;$j<$rows1;$j++){
+									$row1 = pg_fetch_object($result1, $j);
+									?>
+										<tr>
+										<td><?php echo ucwords(strtolower($row1->candidate)) ?></td>
+										<td><?php echo $row1->party ?></td>  
+										<td><?php echo $row1->criminal_cases ?></td>  
+										<td><?php echo $row1->cases_details_accused ?></td> 
+										<td><?php echo $row1->serious_ipc_detail ?></td>  
+										<td><?php echo $row1->other_ipc_detail ?></td>
+										<td><a class="btn" href="./lscrime_update.php?candidate=<?php echo $row1->candidate ?>&party=<?php echo $row1->party ?>&constituency=<?php echo $row1->constituency ?>&year=<?php echo $row->year ?>">Edit</a></td>	
+										</tr>
+									<?php
+									}
+									?>
+									</tbody>
+								</table>
+							</div>
+						</div>	
+					</div>  
 					<?php
 					}else{
 					?>
-					<td><a href="./lscandidate_profile.php?winner=<?php echo $winner?>&candidate=<?php echo $row->candidate?>&year=<?php echo $year ?>&constituency=<?php echo $cons ?>"><?php echo ucwords(strtolower($row->candidate)) ?></a></td>  
+					<div class="tab-pane" id="<?php echo $i ?>">  
+					<div class="row-fluid">
+							<div class="span12">
+								<table class="table table-bordered table-striped" id="myTable1">
+									<thead>  
+									<tr>  
+										<th>Name</th>  
+										<th>Party</th>
+										<th>Criminal Cases</th>
+										<th>Case Details Accused</th>
+										<th>Serious IPC Details</th>
+										<th>Other IPC Details</th>
+										<th>Action</th>
+									</tr>  
+									</thead> 
+									<tbody>
+									<?php
+									for($j=0;$j<$rows1;$j++){
+									$row1 = pg_fetch_object($result1, $j);
+									?>
+										<tr>
+										<td><?php echo ucwords(strtolower($row1->candidate)) ?></td>
+										<td><?php echo $row1->party ?></td>  
+										<td><?php echo $row1->criminal_cases ?></td>  
+										<td><?php echo $row1->cases_details_accused ?></td> 
+										<td><?php echo $row1->serious_ipc_detail ?></td>  
+										<td><?php echo $row1->other_ipc_detail ?></td>  	
+										<td><a class="btn" href="./lscrime_update.php?candidate=<?php echo $row1->candidate ?>&party=<?php echo $row1->party ?>&constituency=<?php echo $row1->constituency ?>&year=<?php echo $row->year ?>">Edit</a></td>	
+										</tr>
+									<?php
+									}
+									?>
+									</tbody>
+								</table>
+							</div>
+						</div>	
+					</div>	
 					<?php
 					}
+					}
 					?>
-					<td><?php echo $row->party ?></td>  
-					<td><?php echo $row->criminal_cases ?></td>  
-					<td><?php echo $row->total_assets ?></td>  
-					</tr>	
-				<?php
-				}
-				?>	
-				</tbody>
-				</table>		
-				</div>
+				</div>  
 			</div>
 		</div>
-	
+	</div>
 	</div>
 	
-	</div>
 	
-	<!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+	<!-- LE Javascript -->
 	
-	<script type="text/javascript" src="http://localhost/kyl/bootstrap-modal.js"></script>
-
-</body>
+	 
+	<script src="http://localhost/kyl/bootstrap-tab.js"></script>
+</body>	
 </html>

@@ -170,7 +170,7 @@
 	  
 	  <hr>
 	  <div class="row-fluid">
-		<div class="span4 offset4 butn" ><a href="#" class="btn btn-large btn-block btn-success">India</a>
+		<div class="span4 offset4 butn" ><a href="./admin_india.php" class="btn btn-large btn-block btn-success">India</a>
 		
 		<!--<a href="./eu_countries.php" id="badb" class="btn btn-large btn-block btn-success">Europe</a>-->
 		

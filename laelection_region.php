@@ -39,9 +39,9 @@
 
 	<title><?php echo $cons.": ".$year ?></title>
 	<link rel="stylesheet" href="bootstrap.css">
+	<script type="text/javascript" src="http://localhost/kyl/jquery.js"></script>
 	<script type="text/javascript" src="http://localhost/kyl/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript" src="http://localhost/kyl/jquery.tablesorter.js"></script>
-	<script type="text/javascript" src="http://localhost/kyl/jquery.js"></script>
 	<script type="text/javascript">
 	function lookup(inputString) {
 		if(inputString.length == 0) {

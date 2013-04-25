@@ -2,9 +2,29 @@
 
 <html>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<?php
+		require_once __DIR__ . '/db_config.php';
+		
+		// open a connection to the database server
+		$connection = pg_connect ("host=$host port=$port dbname=$db user=$user
+		password=$password");
+		if (!$connection)
+		{
+		die("Could not open connection to database server");
+		}
+		
+		// generate and execute a query
+	$query = "SELECT DISTINCT(LOWER(constituency)) as constituency FROM cand_crime_ls ORDER BY constituency"; 
+	$result = pg_query($connection, $query) or die("Error in query:
+	$query. " .
+	pg_last_error($connection));
+	$rows = pg_num_rows($result);
+		
+?>
+
 <head>
 
-    <title>Home</title>
+    <title>India States</title>
 	<link rel="stylesheet" href="bootstrap.css"> 
 	<script type="text/javascript" src="http://localhost/kyl/jquery.js"></script>
 	<script type="text/javascript">
@@ -29,12 +49,11 @@
 	</script>
 	<style type='text/css'>
 	body {
-	}
-	.butn{
-		margin-top: 100px	
-	}
+        padding-top: 60px;
+        padding-bottom: 40px;
+    }
 	.jumbotron {
-        margin: 80px 0;
+        margin: 35px 0;
         text-align: center;
      }
     .jumbotron .lead {
@@ -42,7 +61,11 @@
         line-height: 1.25;
     }
 	#badb{
-		margin-top: 30px
+		margin-top: 60px;
+		width: 220px;
+	}
+	#badc{
+		margin-top: 50px;
 	}
 	.suggestionsBox {
 		position: absolute;
@@ -82,12 +105,11 @@
 
 	}
 	</style>
-	
-
 </head>
-<body>
 
-	 <div class="navbar navbar-inverse navbar-fixed-top">
+<body>
+	<!--Navigation bar -->
+	<div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -98,10 +120,10 @@
           <a class="brand" href="./index.html">kyl</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
+              <li><a href="./index.html">Home</a></li>
               <li><a href="./twitter_search.php">Twitter Search</a></li>
-              <li><a href="./india_elections_crime.html">Crime Data</a></li>
-			  <li><a href="./admin_signin.php">Admin Panel</a></li>
+              <li><a href="#contact">Crime Data</a></li>
+			  <li><a href="#submit">Admin Panel</a></li>
             </ul>
 			<form class="navbar-search pull-right">  
 			<input type="text" class="search-query" placeholder="Search" onkeyup="lookup(this.value);" onblur="fill();"> 
@@ -110,34 +132,46 @@
 				<div class="sugglist" id="autoSuggestionsList">
 				</div>
 			</div>	
-			</form>  
+			</form>    
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
 	
-	<div class='container'>
-	
-	<!-- Jumbotron -->
+	<div class="container-fluid">
+	<!--Small Jumbotron -->
       <div class="jumbotron">
-        <p class="lead">Select a Country/Region</p>
-      </div>
+        <p class="lead">Select a Constituency</p>
+	  </div>
+	  
+	  <hr>
+	  
+	  <form action="/kyl/loksabha_crime.php" method="GET">  
+				<div class="row-fluid">
+				<div class="control-group span2 offset5 ">  
+					<label class="control-label" for="slct1">Constituency</label>  
+					<div class="controls">  
+					<select id="slct1" name="constituency"> 
+					<option value=""></option>
+					<?php
+					for($i=0;$i<$rows;$i++){
+					$row = pg_fetch_object($result, $i);
+					?>
+					<option value="<?php echo $row->constituency ?>"><?php echo ucwords($row->constituency) ?></option>
+					<?php
+					}
+					?>
+					</select>  
+					</div>  
+				</div>  
+				</div>
+				<div class="row-fluid">
+				<div class="span2 offset5">
+					<input type="submit" class="btn btn-large btn-block btn-success" id="badb" value="Go"/>
+				</div>
+				</div>
+	  </form>
+	</div>	
 
-      <hr>
-
-	<div class="row-fluid">
-	
-	
-		<div class="span4 offset4 butn" ><a href="./india_elections.html" class="btn btn-large btn-block btn-success">India</a>
-		
-		<a href="./eu_countries.php" id="badb" class="btn btn-large btn-block btn-success">Europe</a>
-		
-		<a href="./us_elections.html" id="badb" class="btn btn-large btn-block btn-success">USA</a></div>
-
-	
-	</div>
-	
-	
-</div>
 </body>
-</html>
+</html>		
