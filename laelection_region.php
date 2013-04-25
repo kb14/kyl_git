@@ -355,7 +355,7 @@
 					<?php
 					}
 					?>
-					<td><?php echo $row->party ?></td>  
+					<td><a href="./laelection_party.php?party=<?php echo $row->party ?>"><?php echo $row->party ?></a></td>  
 					<td><?php echo $row->criminal_cases ?></td>  
 					<td><?php echo $row->total_assets ?></td>  
 					</tr>	
