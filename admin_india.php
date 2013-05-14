@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 
 <head>
-
+<!-- A comment has been added -->
     <title>Dashboard</title>
 	<link rel="stylesheet" href="bootstrap.css">
 	<script type="text/javascript" src="http://localhost/kyl/jquery.js"></script>
